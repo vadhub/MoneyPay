@@ -12,6 +12,7 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
     private static final int NOTIFY_ID = 101;
     private static String CHANNEL_ID = "Now pay";
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
 

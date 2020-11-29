@@ -17,12 +17,21 @@ public class MainViewModel extends AndroidViewModel {
 
     private static NotesDatabase databaseNotes;
     private LiveData<List<Note>> notes;
+
     private LiveData<List<Notification>> notifications;
     public MainViewModel(@NonNull Application application) {
         super(application);
         databaseNotes = NotesDatabase.getInstance(getApplication());
         notes = databaseNotes.notesDao().getAllNotes();
         notifications = databaseNotes.notificationDao().getAllNotification();
+    }
+
+    public LiveData<List<Notification>> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(LiveData<List<Notification>> notifications) {
+        this.notifications = notifications;
     }
 
     public LiveData<List<Note>> getNotes() {
