@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.manyepay.R;
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
@@ -49,7 +50,7 @@ public class EditNoteFragment extends Fragment {
         nameText = (EditText) v.findViewById(R.id.nameProduct);
         addNote = (Button) v.findViewById(R.id.add_note);
 
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         addNote.setOnClickListener(addNoteListener);
         datetext.setOnClickListener(listener);
