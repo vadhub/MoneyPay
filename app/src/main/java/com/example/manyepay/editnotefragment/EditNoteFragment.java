@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.manyepay.R;
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
 import com.example.manyepay.note.Note;
+import com.example.manyepay.notification.Notification;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.viewmodel.MainViewModel;
 
@@ -127,6 +128,8 @@ public class EditNoteFragment extends Fragment {
             e.printStackTrace();
         }
 
+        Notification notification = new Notification("pay "+ nameText.getText().toString(), "it's time to pay", "Notify!");
+        viewModel.insertNotification(notification);
         long timeWakeUp = dateFormat.getTime();
 
         System.out.println(timeWakeUp);
