@@ -11,8 +11,17 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.manyepay.R;
+import com.example.manyepay.editnotefragment.EditNoteFragment;
+import com.example.manyepay.notification.Notification;
+import com.example.manyepay.viewmodel.MainViewModel;
+
+import java.util.List;
 
 public class NotificationHelper extends ContextWrapper {
     private NotificationManager mNotification;

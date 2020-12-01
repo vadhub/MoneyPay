@@ -14,7 +14,7 @@ import com.example.manyepay.notification.NotificationDao;
 @Database(entities = {Note.class, Notification.class}, version = 1, exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {
     private static NotesDatabase databaseNotes;
-    private static final String DB_NAME = "notes2.db";
+    private static final String DB_NAME = "notes3.db";
 
     private static final Object LOCK = new Object();
 

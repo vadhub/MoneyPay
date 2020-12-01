@@ -1,11 +1,14 @@
 package com.example.manyepay.notificationhelper;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -42,15 +45,15 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
 //
 //        managerCompat.notify(NOTIFY_ID, builder.build());
 
-        viewModel = ViewModelProviders.of(new EditNoteFragment()).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of((FragmentActivity) context.getApplicationContext()).get(MainViewModel.class);
         NotificationHelper notificationHelper = new NotificationHelper(context);
         Intent intent1 = new Intent(context, MainActivity.class);
-        getData(intent1, notificationHelper);
+        getData(intent1, notificationHelper, context);
     }
 
-    private void getData(Intent intent, NotificationHelper helper){
+    private void getData(Intent intent, NotificationHelper helper, Context context){
         LiveData<List<Notification>> notificationFromDb = viewModel.getNotifications();
-        notificationFromDb.observe(new EditNoteFragment(), new Observer<List<Notification>>() {
+        notificationFromDb.observe((LifecycleOwner) context.getApplicationContext(), new Observer<List<Notification>>() {
             @Override
             public void onChanged(List<Notification> notifications) {
                 for (Notification notification: notifications) {
