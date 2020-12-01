@@ -127,10 +127,10 @@ public class EditNoteFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        Notification notification = new Notification("pay "+ nameText.getText().toString(), "it's time to pay", "Notify!");
-        viewModel.insertNotification(notification);
         long timeWakeUp = dateFormat.getTime();
+
+        Notification notification = new Notification("pay "+ nameText.getText().toString(), "it's time to pay", "Notify!", timeWakeUp);
+        viewModel.insertNotification(notification);
 
         System.out.println(timeWakeUp);
 

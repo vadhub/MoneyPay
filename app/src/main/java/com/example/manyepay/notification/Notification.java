@@ -13,19 +13,22 @@ public class Notification {
     private String massage;
     private String title;
     private String ticket;
+    private long date;
 
-    public Notification(int id, String massage, String title, String ticket) {
+    public Notification(int id, String massage, String title, String ticket, long date) {
         this.id = id;
         this.massage = massage;
         this.title = title;
         this.ticket = ticket;
+        this.date = date;
     }
 
     @Ignore
-    public Notification(String massage, String title, String ticket) {
+    public Notification(String massage, String title, String ticket, long date) {
         this.massage = massage;
         this.title = title;
         this.ticket = ticket;
+        this.date = date;
     }
 
     public int getId() {
@@ -58,5 +61,13 @@ public class Notification {
 
     public void setTicket(String ticket) {
         this.ticket = ticket;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 }

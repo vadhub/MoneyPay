@@ -53,8 +53,12 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
         notificationFromDb.observe(new EditNoteFragment(), new Observer<List<Notification>>() {
             @Override
             public void onChanged(List<Notification> notifications) {
-                NotificationCompat.Builder notificationCompat = helper.getNotification("Notify!","it's time to pay", "it's time to pay", intent);
-                helper.getManager().notify((int) (Math.random()*1000), notificationCompat.build());
+                for (Notification notification: notifications) {
+                    if(notification.getDate()==System.currentTimeMillis()){
+                        NotificationCompat.Builder notificationCompat = helper.getNotification(notification.getTitle(),notification.getMassage(), notification.getTicket(), intent);
+                        helper.getManager().notify(notification.getId(), notificationCompat.build());
+                    }
+                }
 
             }
         });
