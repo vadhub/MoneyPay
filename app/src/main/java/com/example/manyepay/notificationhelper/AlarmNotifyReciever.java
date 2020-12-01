@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.manyepay.MainActivity;
+import com.example.manyepay.editnotefragment.EditNoteFragment;
 import com.example.manyepay.notification.Notification;
 import com.example.manyepay.viewmodel.MainViewModel;
 
@@ -41,7 +42,7 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
 //
 //        managerCompat.notify(NOTIFY_ID, builder.build());
 
-        viewModel = ViewModelProviders.of(new Fragment()).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(new EditNoteFragment()).get(MainViewModel.class);
         NotificationHelper notificationHelper = new NotificationHelper(context);
         Intent intent1 = new Intent(context, MainActivity.class);
         getData(intent1, notificationHelper);
@@ -49,7 +50,7 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
 
     private void getData(Intent intent, NotificationHelper helper){
         LiveData<List<Notification>> notificationFromDb = viewModel.getNotifications();
-        notificationFromDb.observe(new Fragment(), new Observer<List<Notification>>() {
+        notificationFromDb.observe(new EditNoteFragment(), new Observer<List<Notification>>() {
             @Override
             public void onChanged(List<Notification> notifications) {
                 NotificationCompat.Builder notificationCompat = helper.getNotification("Notify!","it's time to pay", "it's time to pay", intent);
