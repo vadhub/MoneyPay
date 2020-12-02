@@ -1,5 +1,6 @@
 package com.example.manyepay.notificationhelper;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,9 +13,11 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.manyepay.R;
 import com.example.manyepay.editnotefragment.EditNoteFragment;
@@ -31,6 +34,8 @@ public class NotificationHelper extends ContextWrapper {
     private final String CHANNEL_ID = "channel1ID"+randName;
     private final String CHANNEL_NAME = "channel1"+randName;
 
+    private MainViewModel viewModel;
+
     public NotificationHelper(Context base) {
         super(base);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -40,6 +45,7 @@ public class NotificationHelper extends ContextWrapper {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createChannel() {
+        viewModel = ViewModelProviders.of((FragmentActivity) this.getApplicationContext()).get(MainViewModel.class);
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
 
         System.out.println(CHANNEL_ID+" "+CHANNEL_NAME);
@@ -55,17 +61,33 @@ public class NotificationHelper extends ContextWrapper {
         return mNotification;
     }
 
-    public NotificationCompat.Builder getNotification(String title, String message, String ticker, Intent intent){
-        PendingIntent pading = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.ruble)
-                .setContentIntent(pading)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ruble))
-                .setWhen(System.currentTimeMillis())
-                .setContentTitle(title)
-                .setContentText(message)
-                .setTicker(ticker)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    public NotificationCompat.Builder getNotification(Intent intent){
+
+        LiveData<List<Notification>> notificationFromDb = viewModel.getNotifications();
+        NotificationCompat.Builder notificationBuild;
+
+        notificationFromDb.observe((LifecycleOwner) this.getApplicationContext(), new Observer<List<Notification>>() {
+
+            @Override
+            public void onChanged(List<Notification> notifications) {
+                for (Notification notification: notifications) {
+                    if(notification.getDate()==System.currentTimeMillis()){
+                        PendingIntent pading = PendingIntent.getActivity(NotificationHelper.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        notificationBuild = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                                .setSmallIcon(R.drawable.ruble)
+                                .setContentIntent(pading)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ruble))
+                                .setWhen(System.currentTimeMillis())
+                                .setContentTitle(notification.getTitle())
+                                .setContentText(notification.getMassage())
+                                .setTicker(notification.getTicket())
+                                .setAutoCancel(true)
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                    }
+                }
+
+            }
+        });
+        return notificationBuild;
     }
 }

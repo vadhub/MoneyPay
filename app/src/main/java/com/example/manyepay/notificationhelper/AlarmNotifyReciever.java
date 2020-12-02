@@ -45,25 +45,13 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
 //
 //        managerCompat.notify(NOTIFY_ID, builder.build());
 
-        viewModel = ViewModelProviders.of((FragmentActivity) context.getApplicationContext()).get(MainViewModel.class);
         NotificationHelper notificationHelper = new NotificationHelper(context);
         Intent intent1 = new Intent(context, MainActivity.class);
         getData(intent1, notificationHelper, context);
     }
 
     private void getData(Intent intent, NotificationHelper helper, Context context){
-        LiveData<List<Notification>> notificationFromDb = viewModel.getNotifications();
-        notificationFromDb.observe((LifecycleOwner) context.getApplicationContext(), new Observer<List<Notification>>() {
-            @Override
-            public void onChanged(List<Notification> notifications) {
-                for (Notification notification: notifications) {
-                    if(notification.getDate()==System.currentTimeMillis()){
-                        NotificationCompat.Builder notificationCompat = helper.getNotification(notification.getTitle(),notification.getMassage(), notification.getTicket(), intent);
-                        helper.getManager().notify(notification.getId(), notificationCompat.build());
-                    }
-                }
+        viewModel = ViewModelProviders.of((FragmentActivity) context.getApplicationContext()).get(MainViewModel.class);
 
-            }
-        });
     }
 }
