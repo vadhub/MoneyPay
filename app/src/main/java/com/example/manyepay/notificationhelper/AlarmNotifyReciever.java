@@ -46,12 +46,6 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
 //        managerCompat.notify(NOTIFY_ID, builder.build());
 
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        Intent intent1 = new Intent(context, MainActivity.class);
-        getData(intent1, notificationHelper, context);
-    }
-
-    private void getData(Intent intent, NotificationHelper helper, Context context){
-        viewModel = ViewModelProviders.of((FragmentActivity) context.getApplicationContext()).get(MainViewModel.class);
-
+        notificationHelper.createNotification(System.currentTimeMillis());
     }
 }

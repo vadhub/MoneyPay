@@ -29,17 +29,22 @@ import com.example.manyepay.viewmodel.MainViewModel;
 
 import java.util.List;
 
-public class NotificationHelper extends Fragment {
+public class NotificationHelper{
     private NotificationManager mNotification;
     private MainViewModel viewModel;
     private Notification.Builder builder;
+    private Context context;
+
+    public NotificationHelper(Context context) {
+        this.context = context;
+    }
 
     public void createNotification(long date){
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of((Fragment) new Object()).get(MainViewModel.class);
 
         LiveData<List<com.example.manyepay.notification.Notification>> notificationsFromDB = viewModel.getNotifications();
 
-        notificationsFromDB.observe(this, new Observer<List<com.example.manyepay.notification.Notification>>() {
+        notificationsFromDB.observe((LifecycleOwner) context.getApplicationContext(), new Observer<List<com.example.manyepay.notification.Notification>>() {
             @Override
             public void onChanged(List<com.example.manyepay.notification.Notification> notifications) {
                 for (com.example.manyepay.notification.Notification notification: notifications) {
@@ -55,10 +60,10 @@ public class NotificationHelper extends Fragment {
 
 
     public void setManagerNotification(String ticker, String title, String massage, int id){
-        builder = new Notification.Builder(getActivity());
-        mNotification = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        PendingIntent panding = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        builder = new Notification.Builder(context);
+        mNotification = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent panding = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         builder
                 .setContentIntent(panding)
@@ -68,14 +73,12 @@ public class NotificationHelper extends Fragment {
                 .setTicker(ticker)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ruble))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ruble))
                 .setPriority(Notification.PRIORITY_DEFAULT);
 
         Notification notification = builder.build();
 
         mNotification.notify(id, notification);
-
-
     }
 
 
