@@ -72,10 +72,10 @@ public class EditNoteFragment extends Fragment {
                 ListNotesFragment listRecyclerFragment = new ListNotesFragment();
 
                 Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
+                intent.putExtra("message", name);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(), 0, intent, 0);
 
                 setAlarmMenedger(date, pendingIntent);
-                sendMassage(name);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
             }else{
@@ -129,17 +129,9 @@ public class EditNoteFragment extends Fragment {
         }
         long timeWakeUp = dateFormat.getTime();
 
-        System.out.println(timeWakeUp);
+
 
         assert alarmManager != null;
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-    }
-
-    private void sendMassage(String massage){
-        Intent intent1 = new Intent();
-        intent1.setAction("my.action.string");
-        intent1.putExtra("massage", massage);
-        intent1.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        getActivity().sendBroadcast(intent1);
     }
 }

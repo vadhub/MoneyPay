@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.manyepay">
 
+
     <application
         android:name=".notificationhelper.NotificationHelper"
         android:allowBackup="true"
@@ -18,11 +19,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notificationhelper.AlarmNotifyReciever"
-            android:enabled="true"
-            android:exported="true">
+        <receiver android:name=".notificationhelper.AlarmNotifyReciever">
             <intent-filter>
-                <action android:name="my.action.string" />
+                <action android:name="com.example.Broadcast"/>
             </intent-filter>
         </receiver>
     </application>
