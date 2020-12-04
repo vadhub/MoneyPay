@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
@@ -13,17 +14,24 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.manyepay.MainActivity;
 import com.example.manyepay.R;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class AlarmNotifyReciever extends BroadcastReceiver {
 
     NotificationManagerCompat managerCompat;
+    SharedPreferences sPref;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         managerCompat = NotificationManagerCompat.from(context);
         Intent intent1 = new Intent(context, MainActivity.class);
 
-        String message = intent.getExtras().getString("message");
+        sPref = context.getSharedPreferences("mypref",Context.MODE_PRIVATE);
+        String key = "msg"+TimeUnit.MICROSECONDS.toSeconds(System.currentTimeMillis());
+
+        String message = sPref.getString(key,"");
+        System.out.println(key);
 
         sentMessageOnChannel(context, intent1, message);
     }

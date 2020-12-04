@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -33,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class EditNoteFragment extends Fragment {
     private EditText datetext;
@@ -40,6 +42,8 @@ public class EditNoteFragment extends Fragment {
     private EditText nameText;
     private Button addNote;
     private MainViewModel viewModel;
+    private SharedPreferences sPref;
+
     Calendar dateAndTime= Calendar.getInstance();
 
     @Override
@@ -72,9 +76,9 @@ public class EditNoteFragment extends Fragment {
                 ListNotesFragment listRecyclerFragment = new ListNotesFragment();
 
                 Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
-                intent.putExtra("message", name);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(), 0, intent, 0);
 
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(), 0, intent, 0);
+                sendMessage(name, date);
                 setAlarmMenedger(date, pendingIntent);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
@@ -121,17 +125,34 @@ public class EditNoteFragment extends Fragment {
     private void setAlarmMenedger(String dateWakeUp, PendingIntent pendingIntent){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
+        long timeWakeUp = convertDate(dateWakeUp);
+
+        assert alarmManager != null;
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+    }
+
+    private void sendMessage(String message, String dateText){
+        sPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        long dateFormat = convertDate(dateText);
+        SharedPreferences.Editor editor = sPref.edit();
+        String dateMsg = "msg"+TimeUnit.MICROSECONDS.toSeconds(dateFormat);
+        System.out.println(dateMsg);
+        editor.putString(dateMsg, message);
+        System.out.println(dateMsg);
+        editor.commit();
+
+    }
+
+    private long convertDate(String dateText){
         Date dateFormat = null;
         try {
-            dateFormat = new SimpleDateFormat("MMMM dd, yyyy, hh:mm a").parse(dateWakeUp);
+            dateFormat = new SimpleDateFormat("MMMM dd, yyyy, hh:mm a").parse(dateText);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         long timeWakeUp = dateFormat.getTime();
 
+        return timeWakeUp;
 
-
-        assert alarmManager != null;
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
     }
 }
