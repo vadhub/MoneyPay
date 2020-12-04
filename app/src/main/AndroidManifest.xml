@@ -18,7 +18,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notificationhelper.AlarmNotifyReciever"></receiver>
+        <receiver android:name=".notificationhelper.AlarmNotifyReciever"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="my.action.string" />
+            </intent-filter>
+        </receiver>
     </application>
 
 

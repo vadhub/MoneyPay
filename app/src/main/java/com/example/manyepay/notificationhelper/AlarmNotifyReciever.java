@@ -20,14 +20,17 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationHelper notificationHelper = new NotificationHelper();
         managerCompat = NotificationManagerCompat.from(context);
         Intent intent1 = new Intent(context, MainActivity.class);
-        sentMessageOnChannel(context, intent1);
+
+        String massage = intent.getStringExtra("massage");
+
+        sentMessageOnChannel(context, intent1, massage);
+
 
     }
 
-    private void sentMessageOnChannel(Context context, Intent intent){
+    private void sentMessageOnChannel(Context context, Intent intent, String massage){
 
         PendingIntent panding = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NotificationHelper.CHANNEL_ID)
@@ -36,7 +39,7 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ruble))
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("Notify!")
-                .setContentText("it's time to pay "+intent.getExtras().getString("message"))
+                .setContentText("it's time to pay "+massage)
                 .setTicker("it's time to pay")
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
