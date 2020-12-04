@@ -12,7 +12,7 @@ import com.example.manyepay.note.NoteDao;
 @Database(entities = {Note.class}, version = 1, exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {
     private static NotesDatabase databaseNotes;
-    private static final String DB_NAME = "notes3.db";
+    private static final String DB_NAME = "notes4.db";
 
     private static final Object LOCK = new Object();
 

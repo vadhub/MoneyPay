@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.manyepay.databasenote.NotesDatabase;
 import com.example.manyepay.note.Note;
-import com.example.manyepay.notification.Notification;
 
 import java.util.List;
 
@@ -18,7 +17,6 @@ public class MainViewModel extends AndroidViewModel {
     private static NotesDatabase databaseNotes;
     private LiveData<List<Note>> notes;
 
-    private LiveData<List<Notification>> notifications;
     public MainViewModel(@NonNull Application application) {
         super(application);
         databaseNotes = NotesDatabase.getInstance(getApplication());

@@ -118,6 +118,10 @@ public class EditNoteFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setAlarmMenedger(String dateWakeUp, PendingIntent pendingIntent){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Bundle bundle = new Bundle();
+
+        bundle.putString("massage", nameText.getText().toString());
+        setArguments(bundle);
 
         Date dateFormat = null;
         try {
