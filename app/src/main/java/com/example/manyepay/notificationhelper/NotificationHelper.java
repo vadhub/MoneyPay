@@ -31,7 +31,6 @@ import java.util.List;
 
 public class NotificationHelper{
     private NotificationManager mNotification;
-    private MainViewModel viewModel;
     private Notification.Builder builder;
     private Context context;
 
@@ -39,24 +38,6 @@ public class NotificationHelper{
         this.context = context;
     }
 
-    public void createNotification(long date){
-        viewModel = ViewModelProviders.of((Fragment) new Object()).get(MainViewModel.class);
-
-        LiveData<List<com.example.manyepay.notification.Notification>> notificationsFromDB = viewModel.getNotifications();
-
-        notificationsFromDB.observe((LifecycleOwner) context.getApplicationContext(), new Observer<List<com.example.manyepay.notification.Notification>>() {
-            @Override
-            public void onChanged(List<com.example.manyepay.notification.Notification> notifications) {
-                for (com.example.manyepay.notification.Notification notification: notifications) {
-                    if(notification.getDate()==date){
-                        setManagerNotification(notification.getTicket(), notification.getTitle(), notification.getMassage(), notification.getId());
-                    }
-                }
-
-            }
-        });
-
-    }
 
 
     public void setManagerNotification(String ticker, String title, String massage, int id){

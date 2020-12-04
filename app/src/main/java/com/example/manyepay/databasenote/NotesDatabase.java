@@ -8,10 +8,8 @@ import androidx.room.RoomDatabase;
 
 import com.example.manyepay.note.Note;
 import com.example.manyepay.note.NoteDao;
-import com.example.manyepay.notification.Notification;
-import com.example.manyepay.notification.NotificationDao;
 
-@Database(entities = {Note.class, Notification.class}, version = 1, exportSchema = false)
+@Database(entities = {Note.class}, version = 1, exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {
     private static NotesDatabase databaseNotes;
     private static final String DB_NAME = "notes3.db";
@@ -29,5 +27,4 @@ public abstract class NotesDatabase extends RoomDatabase {
     };
 
     public abstract NoteDao notesDao();
-    public abstract NotificationDao notificationDao();
 }

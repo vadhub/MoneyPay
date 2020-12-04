@@ -23,15 +23,6 @@ public class MainViewModel extends AndroidViewModel {
         super(application);
         databaseNotes = NotesDatabase.getInstance(getApplication());
         notes = databaseNotes.notesDao().getAllNotes();
-        notifications = databaseNotes.notificationDao().getAllNotification();
-    }
-
-    public LiveData<List<Notification>> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(LiveData<List<Notification>> notifications) {
-        this.notifications = notifications;
     }
 
     public LiveData<List<Note>> getNotes() {
@@ -48,18 +39,6 @@ public class MainViewModel extends AndroidViewModel {
 
     public void DeleteAllNotes(){
         new DeleteAllTask().execute();
-    }
-
-    public void insertNotification(Notification note){
-        new InsertTaskNotification().execute(note);
-    }
-
-    public void DeleteNoteNotification(Notification note){
-        new DeleteTaskNotification().execute(note);
-    }
-
-    public void DeleteAllNotification(){
-        new DeleteAllTaskNotification().execute();
     }
 
 
@@ -91,33 +70,4 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
-    private static class InsertTaskNotification extends AsyncTask<Notification, Void, Void>{
-        @Override
-        protected Void doInBackground(Notification... notes) {
-            if(notes!=null&&notes.length>0){
-                databaseNotes.notificationDao().insert(notes[0]);
-            }
-            return null;
-        }
-    }
-
-
-    private static class DeleteTaskNotification extends AsyncTask<Notification, Void, Void>{
-        @Override
-        protected Void doInBackground(Notification... notes) {
-            if(notes!=null&&notes.length>0){
-                databaseNotes.notificationDao().delete(notes[0]);
-            }
-            return null;
-        }
-    }
-
-
-    private static class DeleteAllTaskNotification extends AsyncTask<Void, Void, Void>{
-        @Override
-        protected Void doInBackground(Void... voids) {
-            databaseNotes.notificationDao().deleteAllNotifications();
-            return null;
-        }
-    }
 }
