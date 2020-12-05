@@ -14,7 +14,7 @@ import java.util.List;
 public interface RequestDao {
 
     @Query("SELECT * FROM requetsCodes order by id")
-    LiveData<List<Note>> getAllCodes();
+    LiveData<List<RecuestCode>> getAllCodes();
 
     @Delete
     void deleteCode(RecuestCode code);
