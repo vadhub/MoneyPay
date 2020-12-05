@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.manyepay.note.Note;
 import com.example.manyepay.note.NoteDao;
-import com.example.manyepay.requestCodes.RequestDao;
+import com.example.manyepay.reqestcodes.RequestDao;
 
 @Database(entities = {Note.class}, version = 1, exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {

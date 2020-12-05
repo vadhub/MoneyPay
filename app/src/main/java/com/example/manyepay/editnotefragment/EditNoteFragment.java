@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -27,15 +26,13 @@ import com.example.manyepay.R;
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
-import com.example.manyepay.requestCodes.RecuestCode;
+import com.example.manyepay.reqestcodes.RequestCode;
 import com.example.manyepay.viewmodel.MainViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class EditNoteFragment extends Fragment {
     private EditText datetext;
@@ -73,6 +70,7 @@ public class EditNoteFragment extends Fragment {
             String date = datetext.getText().toString();
             //for request code
             int systemCurrentTime =(int) System.currentTimeMillis();
+            String key = name+sum;
 
             if(!name.isEmpty()&&sum!=0){
                 Note note = new Note(name, sum, date);
@@ -82,8 +80,8 @@ public class EditNoteFragment extends Fragment {
                 Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
 
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
-                RecuestCode code = new RecuestCode(systemCurrentTime);
-                viewModel.insertCode(code);
+                RequestCode requestCode = new RequestCode(systemCurrentTime, key);
+                viewModel.insertCode(requestCode);
                 System.out.println((int) System.currentTimeMillis()+"id");
                 //sendMessage(name, date);
                 setAlarmMenedger(date, pendingIntent);

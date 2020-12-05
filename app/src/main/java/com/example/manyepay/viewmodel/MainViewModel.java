@@ -9,7 +9,8 @@ import androidx.lifecycle.LiveData;
 
 import com.example.manyepay.databasenote.NotesDatabase;
 import com.example.manyepay.note.Note;
-import com.example.manyepay.requestCodes.RecuestCode;
+import com.example.manyepay.reqestcodes.RequestCode;
+
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private static NotesDatabase databaseNotes;
     private LiveData<List<Note>> notes;
-    private LiveData<List<RecuestCode>> codes;
+    private LiveData<List<RequestCode>> codes;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -29,7 +30,7 @@ public class MainViewModel extends AndroidViewModel {
     public LiveData<List<Note>> getNotes() {
         return notes;
     }
-    public LiveData<List<RecuestCode>> getCodes(){return codes;}
+    public LiveData<List<RequestCode>> getCodes(){return codes;}
 
 
     public void insertNote(Note note){
@@ -44,11 +45,11 @@ public class MainViewModel extends AndroidViewModel {
         new DeleteAllTask().execute();
     }
 
-    public void insertCode(RecuestCode code){
+    public void insertCode(RequestCode code){
         new InsertCodeTask().execute(code);
     }
 
-    public void DeleteCode(RecuestCode code){
+    public void DeleteCode(RequestCode code){
         new DeleteCodeTask().execute(code);
     }
 
@@ -85,9 +86,9 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
-    private static class InsertCodeTask extends AsyncTask<RecuestCode, Void, Void> {
+    private static class InsertCodeTask extends AsyncTask<RequestCode, Void, Void> {
         @Override
-        protected Void doInBackground(RecuestCode... recuestCodes) {
+        protected Void doInBackground(RequestCode... recuestCodes) {
             if(recuestCodes!=null&&recuestCodes.length>0){
                 databaseNotes.codeDao().insertCode(recuestCodes[0]);
             }
@@ -95,9 +96,9 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
-    private static class DeleteCodeTask extends AsyncTask<RecuestCode, Void, Void>{
+    private static class DeleteCodeTask extends AsyncTask<RequestCode, Void, Void>{
         @Override
-        protected Void doInBackground(RecuestCode... recuestCodes) {
+        protected Void doInBackground(RequestCode... recuestCodes) {
             if(recuestCodes!=null&&recuestCodes.length>0){
                 databaseNotes.codeDao().deleteCode(recuestCodes[0]);
             }

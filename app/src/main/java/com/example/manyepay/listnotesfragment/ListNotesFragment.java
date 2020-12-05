@@ -1,5 +1,9 @@
 package com.example.manyepay.listnotesfragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +23,7 @@ import android.view.ViewGroup;
 import com.example.manyepay.R;
 import com.example.manyepay.editnotefragment.EditNoteFragment;
 import com.example.manyepay.note.Note;
+import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.viewmodel.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -112,5 +117,13 @@ public class ListNotesFragment extends Fragment {
                 recyclerView.setAdapter(adapter);
             }
         });
+    }
+
+    private void cancelAlarm(int request){
+        AlarmManager manager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), AlarmNotifyReciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), request, intent, 0);
+        manager.cancel(pendingIntent);
+
     }
 }
