@@ -24,9 +24,11 @@ import com.example.manyepay.R;
 import com.example.manyepay.editnotefragment.EditNoteFragment;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
+import com.example.manyepay.reqestcodes.RequestCode;
 import com.example.manyepay.viewmodel.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,11 +40,12 @@ public class ListNotesFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private FloatingActionButton actionBtn;
     private MainViewModel viewModel;
+    private List<RequestCode> codes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_notes, container, false);recyclerView = (RecyclerView) v.findViewById(R.id.recyclerNotes);
-
+        codes = new ArrayList<>();
         actionBtn = (FloatingActionButton) v.findViewById(R.id.floatingActionButtonAddNote);
         actionBtn.setOnClickListener(listener);
 
@@ -94,6 +97,14 @@ public class ListNotesFragment extends Fragment {
     private void onRemove(int position) {
         Note note = adapter.getNotes().get(position);
         viewModel.DeleteNote(note);
+        String key = note.getNameProduct()+note.getSumm();
+
+        for (RequestCode requestCode: codes) {
+            if(requestCode.getKey().equals(key)){
+                System.out.println(requestCode.getKey()+"KEY2");
+            }
+        }
+
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -106,15 +117,20 @@ public class ListNotesFragment extends Fragment {
 
     private void getData(){
         LiveData<List<Note>> notesFromDB = viewModel.getNotes();
+        LiveData<List<RequestCode>> codeFromDB = viewModel.getCodes();
 
-        System.out.println(notesFromDB.getValue()==null);
         notesFromDB.observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
             @Override
             public void onChanged(List<Note> notes) {
-
-                System.out.println(notes.size());
                 adapter.setNotes(notes);
                 recyclerView.setAdapter(adapter);
+            }
+        });
+
+        codeFromDB.observe(getViewLifecycleOwner(), new Observer<List<RequestCode>>() {
+            @Override
+            public void onChanged(List<RequestCode> requestCodes) {
+                codes = requestCodes;
             }
         });
     }

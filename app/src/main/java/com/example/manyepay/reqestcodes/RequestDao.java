@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface RequestDao {
-    @Query("SELECT * FROM requetsCodes order by id")
+    @Query("SELECT * FROM requestCodes ORDER BY id")
     LiveData<List<RequestCode>> getAllCodes();
 
     @Delete
@@ -19,6 +19,6 @@ public interface RequestDao {
     @Insert
     void insertCode(RequestCode code);
 
-    @Query("DELETE FROM requetsCodes")
+    @Query("DELETE FROM requestCodes")
     void deleteAllCodes();
 }

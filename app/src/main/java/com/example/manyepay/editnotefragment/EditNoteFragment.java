@@ -81,8 +81,9 @@ public class EditNoteFragment extends Fragment {
 
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
                 RequestCode requestCode = new RequestCode(systemCurrentTime, key);
+
+                System.out.println(key+" KEY1");
                 viewModel.insertCode(requestCode);
-                System.out.println((int) System.currentTimeMillis()+"id");
                 //sendMessage(name, date);
                 setAlarmMenedger(date, pendingIntent);
 

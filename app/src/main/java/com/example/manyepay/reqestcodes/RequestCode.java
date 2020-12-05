@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "requetsCodes")
+@Entity(tableName = "requestCodes")
 public class RequestCode {
 
     @PrimaryKey(autoGenerate = true)
@@ -33,13 +33,6 @@ public class RequestCode {
         this.id = id;
     }
 
-    public int getRequestIndefCode() {
-        return requestCodeIndef;
-    }
-
-    public void setRequestIndefCode(int requestCodeIndef) {
-        this.requestCodeIndef = requestCodeIndef;
-    }
 
     public String getKey() {
         return key;
@@ -47,5 +40,13 @@ public class RequestCode {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public int getRequestCodeIndef() {
+        return requestCodeIndef;
+    }
+
+    public void setRequestCodeIndef(int requestCodeIndef) {
+        this.requestCodeIndef = requestCodeIndef;
     }
 }
