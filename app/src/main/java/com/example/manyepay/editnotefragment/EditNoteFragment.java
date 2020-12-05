@@ -27,6 +27,7 @@ import com.example.manyepay.R;
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
+import com.example.manyepay.requestCodes.RecuestCode;
 import com.example.manyepay.viewmodel.MainViewModel;
 
 import java.text.ParseException;
@@ -42,7 +43,7 @@ public class EditNoteFragment extends Fragment {
     private EditText nameText;
     private Button addNote;
     private MainViewModel viewModel;
-    private SharedPreferences sPref;
+//    private SharedPreferences sPref;
 
     Calendar dateAndTime= Calendar.getInstance();
 
@@ -70,6 +71,9 @@ public class EditNoteFragment extends Fragment {
             String name = nameText.getText().toString().trim();
             int sum = Integer.parseInt(summText.getText().toString().trim());
             String date = datetext.getText().toString();
+            //for request code
+            int systemCurrentTime =(int) System.currentTimeMillis();
+
             if(!name.isEmpty()&&sum!=0){
                 Note note = new Note(name, sum, date);
                 viewModel.insertNote(note);
@@ -77,7 +81,9 @@ public class EditNoteFragment extends Fragment {
 
                 Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
 
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),(int) System.currentTimeMillis(), intent, 0);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
+                RecuestCode code = new RecuestCode(systemCurrentTime);
+                viewModel.insertCode(code);
                 System.out.println((int) System.currentTimeMillis()+"id");
                 //sendMessage(name, date);
                 setAlarmMenedger(date, pendingIntent);

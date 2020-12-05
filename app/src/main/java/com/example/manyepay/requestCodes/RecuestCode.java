@@ -9,15 +9,15 @@ public class RecuestCode {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private long requestCode;
+    private int requestCode;
 
-    public RecuestCode(int id, long requestCode) {
+    public RecuestCode(int id, int requestCode) {
         this.id = id;
         this.requestCode = requestCode;
     }
 
     @Ignore
-    public RecuestCode(long requestCode) {
+    public RecuestCode(int requestCode) {
         this.requestCode = requestCode;
     }
 
@@ -29,11 +29,11 @@ public class RecuestCode {
         this.id = id;
     }
 
-    public long getRequestCode() {
+    public int getRequestCode() {
         return requestCode;
     }
 
-    public void setRequestCode(long requestCode) {
+    public void setRequestCode(int requestCode) {
         this.requestCode = requestCode;
     }
 }
