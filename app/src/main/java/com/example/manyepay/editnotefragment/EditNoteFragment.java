@@ -132,14 +132,10 @@ public class EditNoteFragment extends Fragment {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
     }
 
-//    private void sendMessage(String message, String dateText){
+//    private void sendMessage(int requestCode){
 //        sPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        long dateFormat = convertDate(dateText);
 //        SharedPreferences.Editor editor = sPref.edit();
-//        String dateMsg = "msg"+TimeUnit.MICROSECONDS.toSeconds(dateFormat);
-//        System.out.println(dateMsg);
-//        editor.putString(dateMsg, message);
-//        System.out.println(dateMsg);
+//        editor.putInt(dateMsg, requestCode);
 //        editor.commit();
 //
 //    }
