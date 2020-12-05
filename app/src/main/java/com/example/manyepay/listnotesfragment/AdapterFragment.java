@@ -61,10 +61,11 @@ public class AdapterFragment extends RecyclerView.Adapter<AdapterFragment.MyView
         return new MyViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(notes.get(position).getNameProduct());
-        holder.summ.setText(String.valueOf(notes.get(position).getSumm()));
+        holder.summ.setText(notes.get(position).getSumm() +" "+notes.get(position).getValute());
         holder.date.setText(converterDate(notes.get(position).getDate()));
 
     }

@@ -12,9 +12,12 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -40,6 +43,10 @@ public class EditNoteFragment extends Fragment {
     private EditText nameText;
     private Button addNote;
     private MainViewModel viewModel;
+    private Spinner spinner;
+    private String[] valuteItem;
+    private int positionElem;
+
 //    private SharedPreferences sPref;
 
     Calendar dateAndTime= Calendar.getInstance();
@@ -51,7 +58,15 @@ public class EditNoteFragment extends Fragment {
         summText = (EditText) v.findViewById(R.id.price);
         nameText = (EditText) v.findViewById(R.id.nameProduct);
         addNote = (Button) v.findViewById(R.id.add_note);
+        spinner = (Spinner) v.findViewById(R.id.valute);
+        positionElem = 0;
 
+        valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(v.getContext(),android.R.layout.simple_list_item_1, valuteItem);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(listenerSprnner);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         addNote.setOnClickListener(addNoteListener);
@@ -60,6 +75,18 @@ public class EditNoteFragment extends Fragment {
 
         return v;
     }
+
+    private AdapterView.OnItemSelectedListener listenerSprnner = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            positionElem = position;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     View.OnClickListener addNoteListener = new View.OnClickListener() {
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -73,7 +100,7 @@ public class EditNoteFragment extends Fragment {
             String key = name+sum;
 
             if(!name.isEmpty()&&sum!=0){
-                Note note = new Note(name, sum, date);
+                Note note = new Note(name, sum, date, valuteItem[positionElem]);
                 viewModel.insertNote(note);
                 ListNotesFragment listRecyclerFragment = new ListNotesFragment();
 

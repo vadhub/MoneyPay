@@ -34,7 +34,6 @@ import java.util.List;
 
 public class ListNotesFragment extends Fragment {
 
-
     private RecyclerView recyclerView;
     private AdapterFragment adapter;
     private RecyclerView.LayoutManager layoutManager;
