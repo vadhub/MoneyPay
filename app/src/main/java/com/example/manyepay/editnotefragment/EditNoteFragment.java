@@ -77,8 +77,9 @@ public class EditNoteFragment extends Fragment {
 
                 Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
 
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(), 0, intent, 0);
-                sendMessage(name, date);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),(int) System.currentTimeMillis(), intent, 0);
+                System.out.println((int) System.currentTimeMillis()+"id");
+                //sendMessage(name, date);
                 setAlarmMenedger(date, pendingIntent);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
@@ -131,17 +132,17 @@ public class EditNoteFragment extends Fragment {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
     }
 
-    private void sendMessage(String message, String dateText){
-        sPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        long dateFormat = convertDate(dateText);
-        SharedPreferences.Editor editor = sPref.edit();
-        String dateMsg = "msg"+TimeUnit.MICROSECONDS.toSeconds(dateFormat);
-        System.out.println(dateMsg);
-        editor.putString(dateMsg, message);
-        System.out.println(dateMsg);
-        editor.commit();
-
-    }
+//    private void sendMessage(String message, String dateText){
+//        sPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        long dateFormat = convertDate(dateText);
+//        SharedPreferences.Editor editor = sPref.edit();
+//        String dateMsg = "msg"+TimeUnit.MICROSECONDS.toSeconds(dateFormat);
+//        System.out.println(dateMsg);
+//        editor.putString(dateMsg, message);
+//        System.out.println(dateMsg);
+//        editor.commit();
+//
+//    }
 
     private long convertDate(String dateText){
         Date dateFormat = null;

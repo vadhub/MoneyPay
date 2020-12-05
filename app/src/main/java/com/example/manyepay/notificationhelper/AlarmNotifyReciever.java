@@ -27,13 +27,13 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
         managerCompat = NotificationManagerCompat.from(context);
         Intent intent1 = new Intent(context, MainActivity.class);
 
-        sPref = context.getSharedPreferences("mypref",Context.MODE_PRIVATE);
-        String key = "msg"+TimeUnit.MICROSECONDS.toSeconds(System.currentTimeMillis());
+        //sPref = context.getSharedPreferences("mypref",Context.MODE_PRIVATE);
+        //String key = "msg"+TimeUnit.MICROSECONDS.toSeconds(System.currentTimeMillis());
 
-        String message = sPref.getString(key,"");
-        System.out.println(key);
+        //String message = sPref.getString(key,"");
+        //System.out.println(key);
 
-        sentMessageOnChannel(context, intent1, message);
+        sentMessageOnChannel(context, intent1, "");
     }
 
     private void sentMessageOnChannel(Context context, Intent intent, String message){
