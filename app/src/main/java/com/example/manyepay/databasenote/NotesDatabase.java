@@ -14,7 +14,7 @@ import com.example.manyepay.reqestcodes.RequestDao;
 @Database(entities = {Note.class, RequestCode.class}, version = 1, exportSchema = false)
 public abstract class NotesDatabase extends RoomDatabase {
     private static NotesDatabase databaseNotes;
-    private static final String DB_NAME = "notes5.db";
+    private static final String DB_NAME = "notes6.db";
 
     private static final Object LOCK = new Object();
 
