@@ -102,6 +102,7 @@ public class ListNotesFragment extends Fragment {
         for (RequestCode requestCode: codes) {
             if(requestCode.getKey().equals(key)){
                 System.out.println(requestCode.getKey()+"KEY2");
+                cancelAlarm(requestCode.getRequestCodeIndef());
             }
         }
 
