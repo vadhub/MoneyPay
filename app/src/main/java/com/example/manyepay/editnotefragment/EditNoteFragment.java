@@ -114,6 +114,7 @@ public class EditNoteFragment extends Fragment {
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onClick(View v) {
+            if(!summText.getText().equals("")){
             String name = nameText.getText().toString().trim();
             int sum = Integer.parseInt(summText.getText().toString().trim());
             String date = datetext.getText().toString();
@@ -137,6 +138,9 @@ public class EditNoteFragment extends Fragment {
                 setAlarmMenedger(date, pendingIntent);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
+            }else{
+                Toast.makeText(v.getContext(), "Field is not be empty", Toast.LENGTH_SHORT).show();
+            }
             }else{
                 Toast.makeText(v.getContext(), "Field is not be empty", Toast.LENGTH_SHORT).show();
             }
