@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">ManyePay</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string-array name="valute_item">
         <item>$</item>
         <item>₽</item>
         <item>€</item>
     </string-array>
+
+    <string name="date_format">MMMM dd, yyyy, hh:mm a</string>
 </resources>

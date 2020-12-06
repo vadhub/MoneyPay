@@ -1,5 +1,6 @@
 package com.example.manyepay.editnotefragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -41,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class EditNoteFragment extends Fragment {
     private EditText datetext;
@@ -198,6 +200,7 @@ public class EditNoteFragment extends Fragment {
 //
 //    }
 
+    @SuppressLint("SimpleDateFormat")
     private long convertDate(String dateText){
         Date dateFormat = null;
         try {
