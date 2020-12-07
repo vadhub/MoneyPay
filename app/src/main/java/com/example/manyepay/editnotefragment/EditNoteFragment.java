@@ -38,11 +38,14 @@ import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.reqestcodes.RequestCode;
 import com.example.manyepay.viewmodel.MainViewModel;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static com.example.manyepay.R.string.date_format;
 
 public class EditNoteFragment extends Fragment {
     private EditText datetext;
@@ -53,6 +56,9 @@ public class EditNoteFragment extends Fragment {
     private Spinner spinner;
     private String[] valuteItem;
     private int positionElem;
+
+    Locale locale = new Locale("en", "US");
+    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
 
 //    private SharedPreferences sPref;
 
@@ -113,7 +119,7 @@ public class EditNoteFragment extends Fragment {
     };
 
     View.OnClickListener addNoteListener = new View.OnClickListener() {
-        @RequiresApi(api = Build.VERSION_CODES.M)
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onClick(View v) {
             if(!summText.getText().equals("")){
@@ -160,7 +166,7 @@ public class EditNoteFragment extends Fragment {
 
 
     private void setInitialDate(View v){
-        datetext.setText(DateUtils.formatDateTime(v.getContext(), dateAndTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_TIME));
+        datetext.setText(DateUtils.formatDateTime(v.getContext(), dateAndTime.getTimeInMillis(),DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_TIME));
     }
 
     TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -179,38 +185,37 @@ public class EditNoteFragment extends Fragment {
             dateAndTime.set(Calendar.MONTH, month);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             setInitialDate(view);
+            System.out.println(dateAndTime.getTimeInMillis()+"<--------------------------");
         }
     };
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setAlarmMenedger(String dateWakeUp, PendingIntent pendingIntent){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
-        long timeWakeUp = convertDate(dateWakeUp);
+        long timeWakeUp = dateAndTime.getTimeInMillis();
+
+        System.out.println(timeWakeUp+"_______________+++++++++");
 
         assert alarmManager != null;
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
     }
 
-//    private void sendMessage(int requestCode){
-//        sPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sPref.edit();
-//        editor.putInt(dateMsg, requestCode);
-//        editor.commit();
+
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    @SuppressLint("SimpleDateFormat")
+//    private long convertDate(){
+////        Date dateFormat = null;
+////        String formatPattern = getActivity().getString(R.string.date_format);
+////        System.out.println(dateAndTime.getTimeInMillis()+"fggg");
+////        System.out.println(formatPattern);
+////        try {
+////            dateFormat = new SimpleDateFormat(formatPattern).parse(dateText);
+////        } catch (ParseException e) {
+////            e.printStackTrace();
+////        }
+////        long timeWakeUp = dateFormat.getTime();
+////        System.out.println(timeWakeUp+"ghhh");
+////        return timeWakeUp;
 //
 //    }
-
-    @SuppressLint("SimpleDateFormat")
-    private long convertDate(String dateText){
-        Date dateFormat = null;
-        try {
-            dateFormat = new SimpleDateFormat("MMMM dd, yyyy, hh:mm a").parse(dateText);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long timeWakeUp = dateFormat.getTime();
-
-        return timeWakeUp;
-
-    }
 }

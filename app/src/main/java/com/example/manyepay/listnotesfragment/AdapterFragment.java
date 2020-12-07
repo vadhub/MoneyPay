@@ -1,6 +1,7 @@
 package com.example.manyepay.listnotesfragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,7 @@ public class AdapterFragment extends RecyclerView.Adapter<AdapterFragment.MyView
             name = (TextView) itemView.findViewById(R.id.name_product_text);
             summ = (TextView) itemView.findViewById(R.id.summ_text);
             date = (TextView) itemView.findViewById(R.id.date_text);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
