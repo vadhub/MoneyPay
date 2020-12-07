@@ -2,6 +2,7 @@ package com.example.manyepay.listnotesfragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,17 +73,9 @@ public class AdapterFragment extends RecyclerView.Adapter<AdapterFragment.MyView
     }
 
     @SuppressLint("SimpleDateFormat")
-    private String converterDate(String date){
-        Date dateFormat = null;
-        try {
-            dateFormat = new SimpleDateFormat("MMMM dd, yyyy, hh:mm a").parse(date);
-            SimpleDateFormat newFormat = new SimpleDateFormat(DATE_FORMAT);
-            System.out.println(dateFormat.toString());
-            return newFormat.format(dateFormat);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return "date not convert";
-        }
+    private String converterDate(long date){
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        return sdf.format(date);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

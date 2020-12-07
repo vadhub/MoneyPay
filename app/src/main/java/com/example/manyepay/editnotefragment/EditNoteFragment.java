@@ -125,7 +125,7 @@ public class EditNoteFragment extends Fragment {
             if(!summText.getText().equals("")){
             String name = nameText.getText().toString().trim();
             int sum = Integer.parseInt(summText.getText().toString().trim());
-            String date = datetext.getText().toString();
+            long date = dateAndTime.getTimeInMillis();
             //for request code
             int systemCurrentTime =(int) System.currentTimeMillis();
             String key = name+sum;
@@ -140,10 +140,9 @@ public class EditNoteFragment extends Fragment {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
                 RequestCode requestCode = new RequestCode(systemCurrentTime, key);
 
-                System.out.println(key+" KEY1");
                 viewModel.insertCode(requestCode);
                 //sendMessage(name, date);
-                setAlarmMenedger(date, pendingIntent);
+                setAlarmMenedger(pendingIntent);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
             }else{
@@ -189,7 +188,7 @@ public class EditNoteFragment extends Fragment {
         }
     };
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setAlarmMenedger(String dateWakeUp, PendingIntent pendingIntent){
+    private void setAlarmMenedger(PendingIntent pendingIntent){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         long timeWakeUp = dateAndTime.getTimeInMillis();

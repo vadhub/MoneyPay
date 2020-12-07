@@ -10,10 +10,10 @@ public class Note {
     private int idNote;
     private String nameProduct;
     private int summ;
-    private String date;
+    private long date;
     private String valute;
 
-    public Note(int idNote, String nameProduct, int summ, String date, String valute) {
+    public Note(int idNote, String nameProduct, int summ, long date, String valute) {
         this.idNote = idNote;
         this.nameProduct = nameProduct;
         this.summ = summ;
@@ -22,7 +22,7 @@ public class Note {
     }
 
     @Ignore
-    public Note(String nameProduct, int summ, String date, String valute) {
+    public Note(String nameProduct, int summ, long date, String valute) {
         this.nameProduct = nameProduct;
         this.summ = summ;
         this.date = date;
@@ -53,11 +53,11 @@ public class Note {
         this.summ = summ;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

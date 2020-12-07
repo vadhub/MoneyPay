@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="date"
-            android:inputType="date" />
+            android:inputType="date"
+            android:focusable="false"/>
 
         <Spinner
             android:id="@+id/valute"

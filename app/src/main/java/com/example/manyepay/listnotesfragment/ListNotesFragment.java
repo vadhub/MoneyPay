@@ -87,11 +87,6 @@ public class ListNotesFragment extends Fragment {
         return v;
     }
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        getData();
-//    }
 
     private void onRemove(int position) {
         Note note = adapter.getNotes().get(position);
@@ -100,7 +95,6 @@ public class ListNotesFragment extends Fragment {
 
         for (RequestCode requestCode: codes) {
             if(requestCode.getKey().equals(key)){
-                System.out.println(requestCode.getKey()+"KEY2");
                 cancelAlarm(requestCode.getRequestCodeIndef());
             }
         }
