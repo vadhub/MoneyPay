@@ -57,9 +57,6 @@ public class EditNoteFragment extends Fragment {
     private String[] valuteItem;
     private int positionElem;
 
-    Locale locale = new Locale("en", "US");
-    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
-
 //    private SharedPreferences sPref;
 
     Calendar dateAndTime= Calendar.getInstance();
@@ -73,10 +70,6 @@ public class EditNoteFragment extends Fragment {
         addNote = (Button) v.findViewById(R.id.add_note);
         spinner = (Spinner) v.findViewById(R.id.valute);
         positionElem = 0;
-
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
 
@@ -93,18 +86,7 @@ public class EditNoteFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.home:
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, new ListNotesFragment()).commit();
-                getActivity().onBackPressed();
-                return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-
-    }
 
     private AdapterView.OnItemSelectedListener listenerSprnner = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -184,7 +166,6 @@ public class EditNoteFragment extends Fragment {
             dateAndTime.set(Calendar.MONTH, month);
             dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             setInitialDate(view);
-            System.out.println(dateAndTime.getTimeInMillis()+"<--------------------------");
         }
     };
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -193,28 +174,8 @@ public class EditNoteFragment extends Fragment {
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
 
-        System.out.println(timeWakeUp+"_______________+++++++++");
-
         assert alarmManager != null;
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
     }
 
-
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    @SuppressLint("SimpleDateFormat")
-//    private long convertDate(){
-////        Date dateFormat = null;
-////        String formatPattern = getActivity().getString(R.string.date_format);
-////        System.out.println(dateAndTime.getTimeInMillis()+"fggg");
-////        System.out.println(formatPattern);
-////        try {
-////            dateFormat = new SimpleDateFormat(formatPattern).parse(dateText);
-////        } catch (ParseException e) {
-////            e.printStackTrace();
-////        }
-////        long timeWakeUp = dateFormat.getTime();
-////        System.out.println(timeWakeUp+"ghhh");
-////        return timeWakeUp;
-//
-//    }
 }

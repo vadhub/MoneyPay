@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">ManyePay</string>
     <string name="date_format">dd MMMM yyyy, hh:mm</string>
+    <string name="name">Название</string>
+    <string name="price">Цена</string>
+    <string name="date">дата</string>
+    <string name="add_note">Добавить</string>
 </resources>

@@ -10,4 +10,8 @@
     </string-array>
 
     <string name="date_format">MMMM dd, yyyy, hh:mm a</string>
+    <string name="name">name</string>
+    <string name="price">Price</string>
+    <string name="date">date</string>
+    <string name="add_note">Add note</string>
 </resources>
