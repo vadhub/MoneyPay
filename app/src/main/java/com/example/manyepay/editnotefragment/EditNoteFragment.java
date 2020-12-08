@@ -56,14 +56,25 @@ public class EditNoteFragment extends Fragment {
     private MainViewModel viewModel;
     private Spinner spinner;
     private LinearLayout ll;
+    private ViewGroup.LayoutParams params;
+    private EditText textRepeatdate;
+    private Spinner otherDate;
 
+    private String[] otherDateItem;
     private String[] valuteItem;
     private Spinner repeatSpin;
     private String[] repeatDate;
     private int positionElem;
     private int positionElemSpin;
     private long timeRepeat;
-    
+
+    private static final long MILESSEC_MIN = 60*1000;
+    private static final long MILESSEC_HOUR = 60*60*1000;
+    private static final long MILESSEC_WEEK = 604800000;
+    private static final long MILESSEC_MONTH = 2628002880L;
+    private static final long MILESSEC_YEAR = 31536000000L;
+
+
 //    private SharedPreferences sPref;
 
     Calendar dateAndTime= Calendar.getInstance();
@@ -74,26 +85,37 @@ public class EditNoteFragment extends Fragment {
         datetext = (EditText) v.findViewById(R.id.datePay);
         summText = (EditText) v.findViewById(R.id.price);
         nameText = (EditText) v.findViewById(R.id.nameProduct);
+        textRepeatdate = (EditText) v.findViewById(R.id.otherdate);
+
         addNote = (Button) v.findViewById(R.id.add_note);
+
         spinner = (Spinner) v.findViewById(R.id.valute);
         repeatSpin = (Spinner) v.findViewById(R.id.repeatSpenner);
+        otherDate = (Spinner) v.findViewById(R.id.repeatSpinnerOther);
+
         ll = (LinearLayout) v.findViewById(R.id.sublinear);
+
+        params = ll.getLayoutParams();
         
         positionElem = 0;
         positionElemSpin = 0;
         timeRepeat = 0;
-        
+
         valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
         repeatDate = getActivity().getResources().getStringArray(R.array.repeat);
+        otherDateItem = getActivity().getResources().getStringArray(R.array.repeatother);
 
         ArrayAdapter<String> adapter = new ArrayAdapter(v.getContext(),android.R.layout.simple_list_item_1, valuteItem);
-        ArrayAdapter<String> adapterForRepeat = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, repeatDate); 
+        ArrayAdapter<String> adapterForRepeat = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, repeatDate);
+        ArrayAdapter<String> adapterOtherRepeat = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, otherDateItem);
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(listenerSprnner);
         
         repeatSpin.setAdapter(adapterForRepeat);
         repeatSpin.setOnItemSelectedListener(listenerSpinRepeat);
+
+        otherDate.setAdapter(adapterOtherRepeat);
         
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -104,6 +126,18 @@ public class EditNoteFragment extends Fragment {
         return v;
     }
 
+    private AdapterView.OnItemSelectedListener listenerOtherDate = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
 
     private AdapterView.OnItemSelectedListener listenerSpinRepeat = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -112,22 +146,24 @@ public class EditNoteFragment extends Fragment {
             int height = 0;
             switch (position){
                 case 0:
-                    timeRepeat = 604800000;
+                    timeRepeat = MILESSEC_WEEK;
                     break;
                 case 1:
-                    timeRepeat = 2628002880L;
+                    timeRepeat = MILESSEC_MONTH;
                     break;
                 case 2:
-                    timeRepeat = 31536000000L;
+                    timeRepeat = MILESSEC_YEAR;
                     break;
                 case 3:
                    height = ViewGroup.LayoutParams.MATCH_PARENT;
+
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + position);
             }
 
-            ll.getLayoutParams().height = height;
+            params.height = height;
+            ll.setLayoutParams(params);
         }
 
         @Override

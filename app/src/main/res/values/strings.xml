@@ -24,4 +24,12 @@
         <item>year</item>
         <item>other..</item>
     </string-array>
+
+    <string-array name="repeatother">
+        <item>minutes</item>
+        <item>hours</item>
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+    </string-array>
 </resources>

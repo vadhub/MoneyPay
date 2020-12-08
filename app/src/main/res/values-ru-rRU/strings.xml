@@ -16,4 +16,12 @@
         <item>другое..</item>
     </string-array>
     <string name="repeat">Повторять</string>
+
+    <string-array name="repeatother">
+        <item>мин</item>
+        <item>час</item>
+        <item>неделя</item>
+        <item>месяц</item>
+        <item>год</item>
+    </string-array>
 </resources>
