@@ -55,8 +55,12 @@ public class EditNoteFragment extends Fragment {
     private MainViewModel viewModel;
     private Spinner spinner;
     private String[] valuteItem;
-    private int positionElem;
 
+    private Spinner repeatSpin;
+    private String[] repeatDate;
+    private int positionElem;
+    private int positionElemSpin;
+    
 //    private SharedPreferences sPref;
 
     Calendar dateAndTime= Calendar.getInstance();
@@ -69,14 +73,23 @@ public class EditNoteFragment extends Fragment {
         nameText = (EditText) v.findViewById(R.id.nameProduct);
         addNote = (Button) v.findViewById(R.id.add_note);
         spinner = (Spinner) v.findViewById(R.id.valute);
+        repeatSpin = (Spinner) v.findViewById(R.id.repeatSpenner); 
+        
         positionElem = 0;
-
+        positionElemSpin = 0;
+        
         valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
+        repeatDate = getActivity().getResources().getStringArray(R.array.repeat);
 
         ArrayAdapter<String> adapter = new ArrayAdapter(v.getContext(),android.R.layout.simple_list_item_1, valuteItem);
+        ArrayAdapter<String> adapterForRepeat = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, repeatDate); 
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(listenerSprnner);
+        
+        repeatSpin.setAdapter(adapterForRepeat);
+        repeatSpin.setOnItemSelectedListener(listenerSpinRepeat);
+        
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         addNote.setOnClickListener(addNoteListener);
@@ -87,6 +100,17 @@ public class EditNoteFragment extends Fragment {
     }
 
 
+    private AdapterView.OnItemSelectedListener listenerSpinRepeat = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            positionElemSpin = position;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     private AdapterView.OnItemSelectedListener listenerSprnner = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -173,9 +197,12 @@ public class EditNoteFragment extends Fragment {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
+        long timeRepeat = 0;
 
         assert alarmManager != null;
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeWakeUp, timeRepeat, pendingIntent);
+
     }
 
 }

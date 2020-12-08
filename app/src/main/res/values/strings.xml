@@ -12,8 +12,16 @@
     <string name="date_format">MMMM dd, yyyy, hh:mm a</string>
     <string name="name">name</string>
     <string name="price">Price</string>
-    <string name="date">date</string>
+    <string name="date">date first pay</string>
     <string name="add_note">Add note</string>
     <string name="title">Notify!</string>
     <string name="text">it\'s time to pay</string>
+    <string name="repeat">Repeat</string>
+
+    <string-array name="repeat">
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+        <item>other..</item>
+    </string-array>
 </resources>
