@@ -12,7 +12,7 @@
     <string name="date_format">MMMM dd, yyyy, hh:mm a</string>
     <string name="name">name</string>
     <string name="price">Price</string>
-    <string name="date">date first pay</string>
+    <string name="date" >first pay</string>
     <string name="add_note">Add note</string>
     <string name="title">Notify!</string>
     <string name="text">it\'s time to pay</string>

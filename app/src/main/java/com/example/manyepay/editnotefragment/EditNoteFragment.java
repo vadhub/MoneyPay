@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -54,12 +55,14 @@ public class EditNoteFragment extends Fragment {
     private Button addNote;
     private MainViewModel viewModel;
     private Spinner spinner;
-    private String[] valuteItem;
+    private LinearLayout ll;
 
+    private String[] valuteItem;
     private Spinner repeatSpin;
     private String[] repeatDate;
     private int positionElem;
     private int positionElemSpin;
+    private long timeRepeat;
     
 //    private SharedPreferences sPref;
 
@@ -73,10 +76,12 @@ public class EditNoteFragment extends Fragment {
         nameText = (EditText) v.findViewById(R.id.nameProduct);
         addNote = (Button) v.findViewById(R.id.add_note);
         spinner = (Spinner) v.findViewById(R.id.valute);
-        repeatSpin = (Spinner) v.findViewById(R.id.repeatSpenner); 
+        repeatSpin = (Spinner) v.findViewById(R.id.repeatSpenner);
+        ll = (LinearLayout) v.findViewById(R.id.sublinear);
         
         positionElem = 0;
         positionElemSpin = 0;
+        timeRepeat = 0;
         
         valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
         repeatDate = getActivity().getResources().getStringArray(R.array.repeat);
@@ -104,6 +109,25 @@ public class EditNoteFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             positionElemSpin = position;
+            int height = 0;
+            switch (position){
+                case 0:
+                    timeRepeat = 604800000;
+                    break;
+                case 1:
+                    timeRepeat = 2628002880L;
+                    break;
+                case 2:
+                    timeRepeat = 31536000000L;
+                    break;
+                case 3:
+                   height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + position);
+            }
+
+            ll.getLayoutParams().height = height;
         }
 
         @Override
@@ -142,7 +166,7 @@ public class EditNoteFragment extends Fragment {
                 ListNotesFragment listRecyclerFragment = new ListNotesFragment();
 
                 Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
-
+                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
                 RequestCode requestCode = new RequestCode(systemCurrentTime, key);
 
@@ -197,7 +221,6 @@ public class EditNoteFragment extends Fragment {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
-        long timeRepeat = 0;
 
         assert alarmManager != null;
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
