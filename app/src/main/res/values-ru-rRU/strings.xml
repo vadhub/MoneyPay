@@ -6,4 +6,6 @@
     <string name="price">Цена</string>
     <string name="date">дата</string>
     <string name="add_note">Добавить</string>
+    <string name="title">Внимание!</string>
+    <string name="text">Пора платить</string>
 </resources>

@@ -33,10 +33,10 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
         //String message = sPref.getString(key,"");
         //System.out.println(key);
 
-        sentMessageOnChannel(context, intent1, "");
+        sentMessageOnChannel(context, intent1);
     }
 
-    private void sentMessageOnChannel(Context context, Intent intent, String message){
+    private void sentMessageOnChannel(Context context, Intent intent){
 
         PendingIntent panding = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NotificationHelper.CHANNEL_ID)
@@ -44,9 +44,8 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ruble)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ruble))
                 .setWhen(System.currentTimeMillis())
-                .setContentTitle("Notify!")
-                .setContentText("it's time to pay "+message)
-                .setTicker("it's time to pay")
+                .setContentTitle(context.getString(R.string.title))
+                .setContentText(context.getString(R.string.text))
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
