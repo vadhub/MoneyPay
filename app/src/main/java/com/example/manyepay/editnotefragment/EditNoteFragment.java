@@ -52,12 +52,12 @@ public class EditNoteFragment extends Fragment {
     private EditText datetext;
     private EditText summText;
     private EditText nameText;
+    private EditText textRepeatdat;
     private Button addNote;
     private MainViewModel viewModel;
     private Spinner spinner;
     private LinearLayout ll;
     private ViewGroup.LayoutParams params;
-    private EditText textRepeatdate;
     private Spinner otherDate;
 
     private String[] otherDateItem;
@@ -65,8 +65,8 @@ public class EditNoteFragment extends Fragment {
     private Spinner repeatSpin;
     private String[] repeatDate;
     private int positionElem;
-    private int positionElemSpin;
     private long timeRepeat;
+    String dateSt;
 
     private static final long MILESSEC_MIN = 60*1000;
     private static final long MILESSEC_HOUR = 60*60*1000;
@@ -85,7 +85,6 @@ public class EditNoteFragment extends Fragment {
         datetext = (EditText) v.findViewById(R.id.datePay);
         summText = (EditText) v.findViewById(R.id.price);
         nameText = (EditText) v.findViewById(R.id.nameProduct);
-        textRepeatdate = (EditText) v.findViewById(R.id.otherdate);
 
         addNote = (Button) v.findViewById(R.id.add_note);
 
@@ -94,11 +93,11 @@ public class EditNoteFragment extends Fragment {
         otherDate = (Spinner) v.findViewById(R.id.repeatSpinnerOther);
 
         ll = (LinearLayout) v.findViewById(R.id.sublinear);
+        textRepeatdat = (EditText) v.findViewById(R.id.otherdateD);
 
         params = ll.getLayoutParams();
         
         positionElem = 0;
-        positionElemSpin = 0;
         timeRepeat = 0;
 
         valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
@@ -116,6 +115,7 @@ public class EditNoteFragment extends Fragment {
         repeatSpin.setOnItemSelectedListener(listenerSpinRepeat);
 
         otherDate.setAdapter(adapterOtherRepeat);
+        otherDate.setOnItemSelectedListener(listenerOtherDate);
         
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -123,18 +123,23 @@ public class EditNoteFragment extends Fragment {
         datetext.setOnClickListener(listener);
         setInitialDate(v);
 
+
         return v;
     }
 
     private AdapterView.OnItemSelectedListener listenerOtherDate = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            String date = textRepeatdate.getText().toString();
-            if(!date.equals("")){
-                int repeat = Integer.parseInt(date);
+            timeRepeat=0;
+
+            dateSt = textRepeatdat.getText().toString();
+            System.out.println("timerep1: "+timeRepeat+" dst: "+ textRepeatdat.getText());
+            if(!dateSt.equals("")){
+                int repeat = Integer.parseInt(dateSt);
                 switch (position){
                     case 0:
                         timeRepeat = repeat*MILESSEC_MIN;
+                        System.out.println("timerep2: "+timeRepeat+" rep: "+repeat+" ");
                         break;
                     case 1:
                         timeRepeat = repeat*MILESSEC_HOUR;
@@ -148,6 +153,8 @@ public class EditNoteFragment extends Fragment {
                     case 5:
                         timeRepeat = repeat*MILESSEC_YEAR;
                         break;
+                    default:
+                        timeRepeat = repeat*MILESSEC_MIN;
                 }
             }
 
@@ -163,7 +170,6 @@ public class EditNoteFragment extends Fragment {
     private AdapterView.OnItemSelectedListener listenerSpinRepeat = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            positionElemSpin = position;
             int height = 0;
             switch (position){
                 case 0:
@@ -177,7 +183,7 @@ public class EditNoteFragment extends Fragment {
                     break;
                 case 3:
                    height = ViewGroup.LayoutParams.MATCH_PARENT;
-
+                   timeRepeat=0;
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + position);
@@ -281,7 +287,8 @@ public class EditNoteFragment extends Fragment {
 
         assert alarmManager != null;
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeWakeUp, timeRepeat, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timeRepeat, pendingIntent);
+        System.out.println(timeRepeat);
 
     }
 

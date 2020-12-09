@@ -104,7 +104,7 @@
             android:paddingLeft="2dp">
 
             <EditText
-                android:id="@+id/otherdate"
+                android:id="@+id/otherdateD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

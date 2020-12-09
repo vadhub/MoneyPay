@@ -45,6 +45,8 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+        System.out.println("OKKK");
+
         managerCompat.notify(19, notification.build());
 
     }
