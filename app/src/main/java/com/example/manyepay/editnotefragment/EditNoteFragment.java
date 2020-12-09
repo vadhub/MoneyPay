@@ -65,6 +65,7 @@ public class EditNoteFragment extends Fragment {
     private Spinner repeatSpin;
     private String[] repeatDate;
     private int positionElem;
+    private int positionOtherDate;
     private long timeRepeat;
     String dateSt;
 
@@ -98,6 +99,7 @@ public class EditNoteFragment extends Fragment {
         params = ll.getLayoutParams();
         
         positionElem = 0;
+        positionOtherDate =0;
         timeRepeat = 0;
 
         valuteItem = getActivity().getResources().getStringArray(R.array.valute_item);
@@ -130,34 +132,7 @@ public class EditNoteFragment extends Fragment {
     private AdapterView.OnItemSelectedListener listenerOtherDate = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            timeRepeat=0;
-
-            dateSt = textRepeatdat.getText().toString();
-            System.out.println("timerep1: "+timeRepeat+" dst: "+ textRepeatdat.getText());
-            if(!dateSt.equals("")){
-                int repeat = Integer.parseInt(dateSt);
-                switch (position){
-                    case 0:
-                        timeRepeat = repeat*MILESSEC_MIN;
-                        System.out.println("timerep2: "+timeRepeat+" rep: "+repeat+" ");
-                        break;
-                    case 1:
-                        timeRepeat = repeat*MILESSEC_HOUR;
-                        break;
-                    case 2:
-                        timeRepeat = repeat*MILESSEC_WEEK;
-                        break;
-                    case 3:
-                        timeRepeat = repeat*MILESSEC_MONTH;
-                        break;
-                    case 5:
-                        timeRepeat = repeat*MILESSEC_YEAR;
-                        break;
-                    default:
-                        timeRepeat = repeat*MILESSEC_MIN;
-                }
-            }
-
+            positionOtherDate = position;
         }
 
         @Override
@@ -235,7 +210,7 @@ public class EditNoteFragment extends Fragment {
 
                 viewModel.insertCode(requestCode);
                 //sendMessage(name, date);
-                setAlarmMenedger(pendingIntent);
+                setAlarmMenedger(pendingIntent, setTimeInterval(positionOtherDate));
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
             }else{
@@ -280,15 +255,49 @@ public class EditNoteFragment extends Fragment {
         }
     };
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setAlarmMenedger(PendingIntent pendingIntent){
+    private void setAlarmMenedger(PendingIntent pendingIntent, long timeRepeatR){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
 
         assert alarmManager != null;
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timeRepeat, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timeRepeatR, pendingIntent);
         System.out.println(timeRepeat);
+
+    }
+
+    private long setTimeInterval(int positionElem){
+
+        timeRepeat=0;
+
+        dateSt = textRepeatdat.getText().toString();
+        System.out.println("timerep1: "+timeRepeat+" dst: "+ textRepeatdat.getText());
+        if(!dateSt.equals("")){
+            int repeat = Integer.parseInt(dateSt);
+            switch (positionElem){
+                case 0:
+                    System.out.println("timerep2: "+timeRepeat+" rep: "+repeat+" ");
+                    return repeat*MILESSEC_MIN;
+
+                case 1:
+                    return repeat*MILESSEC_HOUR;
+
+                case 2:
+                    return repeat*MILESSEC_WEEK;
+
+                case 3:
+                    return repeat*MILESSEC_MONTH;
+
+                case 5:
+                    return repeat*MILESSEC_YEAR;
+
+                default:
+                    return repeat*MILESSEC_MIN;
+            }
+        }else {
+            return 0;
+        }
 
     }
 
