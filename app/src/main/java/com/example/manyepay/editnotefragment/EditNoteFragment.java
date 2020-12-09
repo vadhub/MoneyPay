@@ -129,6 +129,27 @@ public class EditNoteFragment extends Fragment {
     private AdapterView.OnItemSelectedListener listenerOtherDate = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String date = textRepeatdate.getText().toString();
+            if(!date.equals("")){
+                int repeat = Integer.parseInt(date);
+                switch (position){
+                    case 0:
+                        timeRepeat = repeat*MILESSEC_MIN;
+                        break;
+                    case 1:
+                        timeRepeat = repeat*MILESSEC_HOUR;
+                        break;
+                    case 2:
+                        timeRepeat = repeat*MILESSEC_WEEK;
+                        break;
+                    case 3:
+                        timeRepeat = repeat*MILESSEC_MONTH;
+                        break;
+                    case 5:
+                        timeRepeat = repeat*MILESSEC_YEAR;
+                        break;
+                }
+            }
 
         }
 
