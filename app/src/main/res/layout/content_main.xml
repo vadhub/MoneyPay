@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            style="@style/textstyleautostie"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +37,8 @@
                 android:ems="10"
                 android:hint="@string/price"
                 android:inputType="number"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                style="@style/textstyleautostie"/>
 
             <Spinner
                 android:id="@+id/valute"
@@ -71,7 +73,8 @@
             android:ems="10"
             android:inputType="date"
             android:focusable="false"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            style="@style/textstyleautostie"/>
     </LinearLayout>
 
         <LinearLayout
@@ -95,6 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                style="@style/textstyleautostie"
                 />
 
         </LinearLayout>
@@ -113,13 +117,15 @@
                 android:ems="10"
                 android:hint="@string/date"
                 android:inputType="number"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                style="@style/textstyleautostie"/>
 
             <Spinner
                 android:id="@+id/repeatSpinnerOther"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                style="@style/textstyleautostie"
                 />
 
 
