@@ -4,9 +4,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -14,21 +12,16 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.manyepay.MainActivity;
 import com.example.manyepay.R;
 
-import java.util.concurrent.TimeUnit;
-
-
-public class AlarmNotifyReciever extends BroadcastReceiver {
+public class AlarmRepeating extends BroadcastReceiver {
 
     NotificationManagerCompat managerCompat;
-
     @Override
     public void onReceive(Context context, Intent intent) {
         managerCompat = NotificationManagerCompat.from(context);
         Intent intent1 = new Intent(context, MainActivity.class);
-        Intent intentAlarm = new Intent(context, AlarmRepeating.class);
-        intentAlarm.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
 
         sentMessageOnChannel(context, intent1);
+
     }
 
     private void sentMessageOnChannel(Context context, Intent intent){
