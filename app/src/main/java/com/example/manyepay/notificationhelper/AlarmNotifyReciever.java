@@ -20,13 +20,11 @@ import java.util.concurrent.TimeUnit;
 public class AlarmNotifyReciever extends BroadcastReceiver {
 
     NotificationManagerCompat managerCompat;
-    SharedPreferences sPref;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         managerCompat = NotificationManagerCompat.from(context);
         Intent intent1 = new Intent(context, MainActivity.class);
-
 
         sentMessageOnChannel(context, intent1);
     }

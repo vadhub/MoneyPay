@@ -260,10 +260,12 @@ public class EditNoteFragment extends Fragment {
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
 
+        if(timeRepeatR==0){
+            timeRepeatR = timeRepeat;
+        }
         assert alarmManager != null;
         //alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timeRepeatR, pendingIntent);
-        System.out.println(timeRepeat);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeWakeUp+timeRepeatR, timeRepeatR, pendingIntent);
 
     }
 
@@ -272,12 +274,11 @@ public class EditNoteFragment extends Fragment {
         timeRepeat=0;
 
         dateSt = textRepeatdat.getText().toString();
-        System.out.println("timerep1: "+timeRepeat+" dst: "+ textRepeatdat.getText());
+
         if(!dateSt.equals("")){
             int repeat = Integer.parseInt(dateSt);
             switch (positionElem){
                 case 0:
-                    System.out.println("timerep2: "+timeRepeat+" rep: "+repeat+" ");
                     return repeat*MILESSEC_MIN;
 
                 case 1:
