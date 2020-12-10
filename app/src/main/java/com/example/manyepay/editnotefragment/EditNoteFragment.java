@@ -194,28 +194,31 @@ public class EditNoteFragment extends Fragment {
             String name = nameText.getText().toString().trim();
             int sum = Integer.parseInt(summText.getText().toString().trim());
             long date = dateAndTime.getTimeInMillis();
-            //for request code
+
+            //for request code notification
             int systemCurrentTime =(int) System.currentTimeMillis();
             String key = name+sum;
 
-            if(!name.isEmpty()&&sum!=0){
-                Note note = new Note(name, sum, date, valuteItem[positionElem]);
-                viewModel.insertNote(note);
-                ListNotesFragment listRecyclerFragment = new ListNotesFragment();
+                if(!name.isEmpty()&&sum!=0){
+                    Note note = new Note(name, sum, date, valuteItem[positionElem]);
+                    viewModel.insertNote(note);
+                    ListNotesFragment listRecyclerFragment = new ListNotesFragment();
 
-                Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
-                intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
-                RequestCode requestCode = new RequestCode(systemCurrentTime, key);
+                    //start alarm
+                    Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
+                    intent.putExtra("timerepeat", setTimeInterval(positionOtherDate));
+                    intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
+                    RequestCode requestCode = new RequestCode(systemCurrentTime, key);
 
-                viewModel.insertCode(requestCode);
-                //sendMessage(name, date);
-                setAlarmMenedger(pendingIntent, setTimeInterval(positionOtherDate));
+                    viewModel.insertCode(requestCode);
+                    //sendMessage(name, date);
+                    setAlarmMenedger(pendingIntent);
 
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
-            }else{
-                Toast.makeText(v.getContext(), "Field is not be empty", Toast.LENGTH_SHORT).show();
-            }
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
+                }else{
+                    Toast.makeText(v.getContext(), "Field is not be empty", Toast.LENGTH_SHORT).show();
+                }
             }else{
                 Toast.makeText(v.getContext(), "Field is not be empty", Toast.LENGTH_SHORT).show();
             }
@@ -255,23 +258,19 @@ public class EditNoteFragment extends Fragment {
         }
     };
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setAlarmMenedger(PendingIntent pendingIntent, long timeRepeatR){
+    private void setAlarmMenedger(PendingIntent pendingIntent){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
 
-        if(timeRepeatR==0){
-            timeRepeatR = timeRepeat;
-        }
         assert alarmManager != null;
-        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeWakeUp+timeRepeatR, timeRepeatR, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeWakeUp+timeRepeatR, timeRepeatR, pendingIntent);
 
     }
 
+    //for change period time
     private long setTimeInterval(int positionElem){
-
-        timeRepeat=0;
 
         dateSt = textRepeatdat.getText().toString();
 
@@ -296,9 +295,14 @@ public class EditNoteFragment extends Fragment {
                 default:
                     return repeat*MILESSEC_MIN;
             }
-        }else {
-            return 0;
         }
+
+        //if height linearlayout = 0, return old time
+        if(params.height == 0){
+            return timeRepeat;
+        }
+
+        return 0;
 
     }
 
