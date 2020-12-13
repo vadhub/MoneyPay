@@ -67,7 +67,7 @@ public class EditNoteFragment extends Fragment {
     private int positionElem;
     private int positionOtherDate;
     private long timeRepeat;
-    String dateSt;
+    private String dateSt;
 
     private static final long MILESSEC_MIN = 60*1000;
     private static final long MILESSEC_HOUR = 60*60*1000;
@@ -75,10 +75,7 @@ public class EditNoteFragment extends Fragment {
     private static final long MILESSEC_MONTH = 2628002880L;
     private static final long MILESSEC_YEAR = 31536000000L;
 
-
-//    private SharedPreferences sPref;
-
-    Calendar dateAndTime= Calendar.getInstance();
+    private Calendar dateAndTime= Calendar.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -158,10 +155,7 @@ public class EditNoteFragment extends Fragment {
                     break;
                 case 3:
                    height = ViewGroup.LayoutParams.MATCH_PARENT;
-                   timeRepeat=0;
                     break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + position);
             }
 
             params.height = height;
@@ -173,6 +167,40 @@ public class EditNoteFragment extends Fragment {
 
         }
     };
+
+    //for change period time
+    private long setTimeInterval(int positionElem){
+
+        dateSt = textRepeatdat.getText().toString();
+
+        timeRepeat = 0;
+
+        if(!dateSt.equals("")){
+            int repeat = Integer.parseInt(dateSt);
+            switch (positionElem){
+                case 0:
+                    return repeat*MILESSEC_MIN;
+
+                case 1:
+                    return repeat*MILESSEC_HOUR;
+
+                case 2:
+                    return repeat*MILESSEC_WEEK;
+
+                case 3:
+                    return repeat*MILESSEC_MONTH;
+
+                case 5:
+                    return repeat*MILESSEC_YEAR;
+
+                default:
+                    return repeat*MILESSEC_MIN;
+            }
+        }
+
+        return 0;
+
+    }
 
     private AdapterView.OnItemSelectedListener listenerSprnner = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -206,14 +234,13 @@ public class EditNoteFragment extends Fragment {
 
                     //start alarm
                     Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
-                    intent.putExtra("timerepeat", setTimeInterval(positionOtherDate));
                     intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
                     RequestCode requestCode = new RequestCode(systemCurrentTime, key);
 
                     viewModel.insertCode(requestCode);
                     //sendMessage(name, date);
-                    setAlarmMenedger(pendingIntent);
+                    setAlarmMenedger(pendingIntent, setTimeInterval(positionOtherDate));
 
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
                 }else{
@@ -258,51 +285,18 @@ public class EditNoteFragment extends Fragment {
         }
     };
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setAlarmMenedger(PendingIntent pendingIntent){
+    private void setAlarmMenedger(PendingIntent pendingIntent, long timeRepeatR){
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         long timeWakeUp = dateAndTime.getTimeInMillis();
 
         assert alarmManager != null;
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeWakeUp+timeRepeatR, timeRepeatR, pendingIntent);
 
-    }
-
-    //for change period time
-    private long setTimeInterval(int positionElem){
-
-        dateSt = textRepeatdat.getText().toString();
-
-        if(!dateSt.equals("")){
-            int repeat = Integer.parseInt(dateSt);
-            switch (positionElem){
-                case 0:
-                    return repeat*MILESSEC_MIN;
-
-                case 1:
-                    return repeat*MILESSEC_HOUR;
-
-                case 2:
-                    return repeat*MILESSEC_WEEK;
-
-                case 3:
-                    return repeat*MILESSEC_MONTH;
-
-                case 5:
-                    return repeat*MILESSEC_YEAR;
-
-                default:
-                    return repeat*MILESSEC_MIN;
-            }
+        if(timeRepeatR==0){
+            timeRepeatR=timeRepeat;
         }
-
-        //if height linearlayout = 0, return old time
-        if(params.height == 0){
-            return timeRepeat;
-        }
-
-        return 0;
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, +timeRepeatR, timeRepeatR, pendingIntent);
 
     }
 

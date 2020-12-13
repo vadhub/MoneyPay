@@ -25,10 +25,9 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         managerCompat = NotificationManagerCompat.from(context);
         Intent intent1 = new Intent(context, MainActivity.class);
-        Intent intentAlarm = new Intent(context, AlarmRepeating.class);
-        intentAlarm.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
 
         sentMessageOnChannel(context, intent1);
+
     }
 
     private void sentMessageOnChannel(Context context, Intent intent){
