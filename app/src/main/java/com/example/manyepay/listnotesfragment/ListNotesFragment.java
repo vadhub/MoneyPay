@@ -25,6 +25,7 @@ import com.example.manyepay.editnotefragment.EditNoteFragment;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.reqestcodes.RequestCode;
+import com.example.manyepay.utils.UtilAlarmSet;
 import com.example.manyepay.viewmodel.MainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -40,6 +41,7 @@ public class ListNotesFragment extends Fragment {
     private FloatingActionButton actionBtn;
     private MainViewModel viewModel;
     private List<RequestCode> codes;
+    private UtilAlarmSet alarmSet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class ListNotesFragment extends Fragment {
         codes = new ArrayList<>();
         actionBtn = (FloatingActionButton) v.findViewById(R.id.floatingActionButtonAddNote);
         actionBtn.setOnClickListener(listener);
+        alarmSet = new UtilAlarmSet();
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         adapter = new AdapterFragment();
@@ -95,7 +98,7 @@ public class ListNotesFragment extends Fragment {
 
         for (RequestCode requestCode: codes) {
             if(requestCode.getKey().equals(key)){
-                cancelAlarm(requestCode.getRequestCodeIndef());
+                alarmSet.cancelAlarm(getActivity(),requestCode.getRequestCodeIndef());
             }
         }
 
@@ -129,11 +132,5 @@ public class ListNotesFragment extends Fragment {
         });
     }
 
-    private void cancelAlarm(int request){
-        AlarmManager manager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getContext(), AlarmNotifyReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), request, intent, 0);
-        manager.cancel(pendingIntent);
 
-    }
 }

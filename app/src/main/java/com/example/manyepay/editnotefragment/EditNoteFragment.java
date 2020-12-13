@@ -37,6 +37,7 @@ import com.example.manyepay.listnotesfragment.ListNotesFragment;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.reqestcodes.RequestCode;
+import com.example.manyepay.utils.UtilAlarmSet;
 import com.example.manyepay.viewmodel.MainViewModel;
 
 import java.text.DateFormat;
@@ -68,12 +69,7 @@ public class EditNoteFragment extends Fragment {
     private int positionOtherDate;
     private long timeRepeat;
     private String dateSt;
-
-    private static final long MILESSEC_MIN = 60*1000;
-    private static final long MILESSEC_HOUR = 60*60*1000;
-    private static final long MILESSEC_WEEK = 604800000;
-    private static final long MILESSEC_MONTH = 2628002880L;
-    private static final long MILESSEC_YEAR = 31536000000L;
+    private UtilAlarmSet alarmSet;
 
     private Calendar dateAndTime= Calendar.getInstance();
 
@@ -83,6 +79,8 @@ public class EditNoteFragment extends Fragment {
         datetext = (EditText) v.findViewById(R.id.datePay);
         summText = (EditText) v.findViewById(R.id.price);
         nameText = (EditText) v.findViewById(R.id.nameProduct);
+
+        alarmSet = new UtilAlarmSet();
 
         addNote = (Button) v.findViewById(R.id.add_note);
 
@@ -145,13 +143,13 @@ public class EditNoteFragment extends Fragment {
             int height = 0;
             switch (position){
                 case 0:
-                    timeRepeat = MILESSEC_WEEK;
+                    timeRepeat = UtilAlarmSet.getMilessecWeek();
                     break;
                 case 1:
-                    timeRepeat = MILESSEC_MONTH;
+                    timeRepeat = UtilAlarmSet.getMilessecMonth();
                     break;
                 case 2:
-                    timeRepeat = MILESSEC_YEAR;
+                    timeRepeat = UtilAlarmSet.getMilessecYear();
                     break;
                 case 3:
                    height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -179,22 +177,22 @@ public class EditNoteFragment extends Fragment {
             int repeat = Integer.parseInt(dateSt);
             switch (positionElem){
                 case 0:
-                    return repeat*MILESSEC_MIN;
+                    return repeat*UtilAlarmSet.getMilessecMin();
 
                 case 1:
-                    return repeat*MILESSEC_HOUR;
+                    return repeat*UtilAlarmSet.getMilessecHour();
 
                 case 2:
-                    return repeat*MILESSEC_WEEK;
+                    return repeat*UtilAlarmSet.getMilessecWeek();
 
                 case 3:
-                    return repeat*MILESSEC_MONTH;
+                    return repeat*UtilAlarmSet.getMilessecMonth();
 
                 case 5:
-                    return repeat*MILESSEC_YEAR;
+                    return repeat*UtilAlarmSet.getMilessecYear();
 
                 default:
-                    return repeat*MILESSEC_MIN;
+                    return repeat*UtilAlarmSet.getMilessecMin();
             }
         }
 
@@ -240,7 +238,7 @@ public class EditNoteFragment extends Fragment {
 
                     viewModel.insertCode(requestCode);
                     //sendMessage(name, date);
-                    setAlarmMenedger(pendingIntent, setTimeInterval(positionOtherDate));
+                    alarmSet.setAlarmMenedger(v.getContext(),pendingIntent, setTimeInterval(positionOtherDate), dateAndTime.getTimeInMillis());
 
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
                 }else{
@@ -284,20 +282,4 @@ public class EditNoteFragment extends Fragment {
             setInitialDate(view);
         }
     };
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setAlarmMenedger(PendingIntent pendingIntent, long timeRepeatR){
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        long timeWakeUp = dateAndTime.getTimeInMillis();
-
-        assert alarmManager != null;
-
-        if(timeRepeatR==0){
-            timeRepeatR=timeRepeat;
-        }
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, +timeRepeatR, timeRepeatR, pendingIntent);
-
-    }
-
 }
