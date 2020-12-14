@@ -31,11 +31,16 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
         alarm.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         int requestCode = intent.getIntExtra("requestCode", 0);
         long timeRepeat = intent.getLongExtra("timeRepeat", 5000);
+
+        System.out.println(requestCode+"---------"+timeRepeat);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, alarm, 0);
         Intent intent1 = new Intent(context, MainActivity.class);
 
-        alarmSet.setRepeatAlarmMenedger(context, pendingIntent, timeRepeat);
+
         sentMessageOnChannel(context, intent1);
+
+        alarmSet.setRepeatAlarmMenedger(context, pendingIntent, timeRepeat);
 
     }
 
