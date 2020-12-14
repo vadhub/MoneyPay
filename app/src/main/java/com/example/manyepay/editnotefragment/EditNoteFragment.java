@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static com.example.manyepay.R.string.date_format;
+import static com.example.manyepay.R.string.item_view_role_description;
 
 public class EditNoteFragment extends Fragment {
     private EditText datetext;
@@ -231,6 +232,8 @@ public class EditNoteFragment extends Fragment {
                     //start alarm
                     Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
                     intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                    intent.putExtra("requestCode", systemCurrentTime);
+                    intent.putExtra("timeRepeat",setTimeInterval(positionOtherDate));
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(v.getContext(),systemCurrentTime, intent, 0);
                     RequestCode requestCode = new RequestCode(systemCurrentTime, key);
 

@@ -42,21 +42,20 @@ public class UtilAlarmSet {
         manager.cancel(pendingIntent);
     }
 
-    public void setAlarmMenedger(Context context, PendingIntent pendingIntent, long timeRepeatR, long timeWakeUp){
+    public void setAlarmMenedger(Context context, PendingIntent pendingIntent, long timeRepeat, long timeFirst){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         assert alarmManager != null;
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, (timeFirst+timeRepeat)-System.currentTimeMillis(), pendingIntent);
 
     }
 
-    public void setRepeatAlarmMenedger(Context context, PendingIntent pendingIntent, long timeRepeatR){
+    public void setRepeatAlarmMenedger(Context context, PendingIntent pendingIntent, long timeRepeat){
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         assert alarmManager != null;
 
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timeRepeatR, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeRepeat, pendingIntent);
     }
 }
