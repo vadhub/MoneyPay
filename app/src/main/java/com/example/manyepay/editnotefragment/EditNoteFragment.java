@@ -171,8 +171,6 @@ public class EditNoteFragment extends Fragment {
 
         dateSt = textRepeatdat.getText().toString();
 
-        timeRepeat = 0;
-
         if(!dateSt.equals("")){
             int repeat = Integer.parseInt(dateSt);
             switch (positionElem){
@@ -196,7 +194,7 @@ public class EditNoteFragment extends Fragment {
             }
         }
 
-        return 0;
+        return timeRepeat;
 
     }
 

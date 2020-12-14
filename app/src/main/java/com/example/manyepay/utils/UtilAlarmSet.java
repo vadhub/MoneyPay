@@ -47,7 +47,16 @@ public class UtilAlarmSet {
 
         assert alarmManager != null;
 
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
+
+    }
+
+    public void setRepeatAlarmMenedger(Context context, PendingIntent pendingIntent, long timeRepeatR){
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        assert alarmManager != null;
+
         //alarmManager.set(AlarmManager.RTC_WAKEUP, timeWakeUp, pendingIntent);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, +timeRepeatR, timeRepeatR, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), timeRepeatR, pendingIntent);
     }
 }
