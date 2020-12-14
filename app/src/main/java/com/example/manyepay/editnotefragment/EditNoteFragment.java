@@ -1,6 +1,7 @@
 package com.example.manyepay.editnotefragment;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,13 +29,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.manyepay.R;
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
+import com.example.manyepay.listnotesfragment.OnBackPressed;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.reqestcodes.RequestCode;
@@ -50,7 +53,7 @@ import java.util.Locale;
 import static com.example.manyepay.R.string.date_format;
 import static com.example.manyepay.R.string.item_view_role_description;
 
-public class EditNoteFragment extends Fragment {
+public class EditNoteFragment extends Fragment implements OnBackPressed {
     private EditText datetext;
     private EditText summText;
     private EditText nameText;
@@ -77,6 +80,10 @@ public class EditNoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.content_main, container, false);
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         datetext = (EditText) v.findViewById(R.id.datePay);
         summText = (EditText) v.findViewById(R.id.price);
         nameText = (EditText) v.findViewById(R.id.nameProduct);
@@ -105,6 +112,7 @@ public class EditNoteFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter(v.getContext(),android.R.layout.simple_list_item_1, valuteItem);
         ArrayAdapter<String> adapterForRepeat = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, repeatDate);
         ArrayAdapter<String> adapterOtherRepeat = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, otherDateItem);
+
 
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(listenerSprnner);
@@ -283,4 +291,13 @@ public class EditNoteFragment extends Fragment {
             setInitialDate(view);
         }
     };
+
+    @Override
+    public boolean onBackPress() {
+        if (KeyEvent.isGamepadButton(KeyEvent.KEYCODE_BACK)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

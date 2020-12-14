@@ -48,7 +48,10 @@ public class UtilAlarmSet {
         assert alarmManager != null;
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()-timeFirst, pendingIntent);
-        System.out.println("Utils"+(System.currentTimeMillis()-timeFirst));
+        System.out.println("Utils "+(timeRepeat-timeFirst));
+        System.out.println("Utils first "+timeFirst);
+        System.out.println("Utils current "+System.currentTimeMillis());
+
 
     }
 

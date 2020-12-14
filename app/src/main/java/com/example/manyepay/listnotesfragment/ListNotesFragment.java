@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListNotesFragment extends Fragment {
+public class ListNotesFragment extends Fragment{
 
     private RecyclerView recyclerView;
     private AdapterFragment adapter;
@@ -131,6 +131,5 @@ public class ListNotesFragment extends Fragment {
             }
         });
     }
-
 
 }
