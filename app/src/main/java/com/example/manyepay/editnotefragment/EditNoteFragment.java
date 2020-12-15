@@ -53,7 +53,7 @@ import java.util.Locale;
 import static com.example.manyepay.R.string.date_format;
 import static com.example.manyepay.R.string.item_view_role_description;
 
-public class EditNoteFragment extends Fragment implements OnBackPressed {
+public class EditNoteFragment extends Fragment implements OnBackPressed{
     private EditText datetext;
     private EditText summText;
     private EditText nameText;
@@ -79,10 +79,13 @@ public class EditNoteFragment extends Fragment implements OnBackPressed {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+
         View v = inflater.inflate(R.layout.content_main, container, false);
 
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         datetext = (EditText) v.findViewById(R.id.datePay);
         summText = (EditText) v.findViewById(R.id.price);
@@ -128,6 +131,8 @@ public class EditNoteFragment extends Fragment implements OnBackPressed {
         addNote.setOnClickListener(addNoteListener);
         datetext.setOnClickListener(listener);
         setInitialDate(v);
+
+        System.out.println(KeyEvent.isGamepadButton(KeyEvent.KEYCODE_BACK));
 
 
         return v;
@@ -291,6 +296,7 @@ public class EditNoteFragment extends Fragment implements OnBackPressed {
             setInitialDate(view);
         }
     };
+
 
     @Override
     public boolean onBackPress() {
