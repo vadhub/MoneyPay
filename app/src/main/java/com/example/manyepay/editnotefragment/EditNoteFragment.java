@@ -87,26 +87,8 @@ public class EditNoteFragment extends Fragment{
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-
-        Button buttonHome = (Button) getActivity().getWindow().getDecorView().findViewById(android.R.id.home);
-
-        buttonHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
-            }
-        });
-
-//        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-//            @Override
-//            public void handleOnBackPressed() {
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
-//                System.out.println("ER");
-//            }
-//        };
-//
-//        requireActivity().getOnBackPressedDispatcher().addCallback(callback);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
