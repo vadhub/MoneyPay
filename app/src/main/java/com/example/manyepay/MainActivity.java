@@ -21,12 +21,4 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, new ListNotesFragment()).commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.containerLayout);
-        if (!(fragment instanceof OnBackPressed) || !((OnBackPressed) fragment).onBackPress()) {
-            System.out.println(!(fragment instanceof OnBackPressed) || !((OnBackPressed) fragment).onBackPress());
-            super.onBackPressed();
-        }
-    }
 }

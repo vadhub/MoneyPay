@@ -27,7 +27,9 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -53,7 +55,7 @@ import java.util.Locale;
 import static com.example.manyepay.R.string.date_format;
 import static com.example.manyepay.R.string.item_view_role_description;
 
-public class EditNoteFragment extends Fragment implements OnBackPressed{
+public class EditNoteFragment extends Fragment{
     private EditText datetext;
     private EditText summText;
     private EditText nameText;
@@ -75,16 +77,31 @@ public class EditNoteFragment extends Fragment implements OnBackPressed{
     private String dateSt;
     private UtilAlarmSet alarmSet;
 
+    private ListNotesFragment listRecyclerFragment = new ListNotesFragment();
+
     private Calendar dateAndTime= Calendar.getInstance();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerLayout, listRecyclerFragment).commit();
+                System.out.println("ER");
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this,callback);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-
         View v = inflater.inflate(R.layout.content_main, container, false);
-
 
 
         datetext = (EditText) v.findViewById(R.id.datePay);
@@ -131,9 +148,6 @@ public class EditNoteFragment extends Fragment implements OnBackPressed{
         addNote.setOnClickListener(addNoteListener);
         datetext.setOnClickListener(listener);
         setInitialDate(v);
-
-        System.out.println(KeyEvent.isGamepadButton(KeyEvent.KEYCODE_BACK));
-
 
         return v;
     }
@@ -240,8 +254,6 @@ public class EditNoteFragment extends Fragment implements OnBackPressed{
                 if(!name.isEmpty()&&sum!=0){
                     Note note = new Note(name, sum, date, valuteItem[positionElem]);
                     viewModel.insertNote(note);
-                    ListNotesFragment listRecyclerFragment = new ListNotesFragment();
-
                     //start alarm
                     Intent intent = new Intent(v.getContext(), AlarmNotifyReciever.class);
                     intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
@@ -297,13 +309,4 @@ public class EditNoteFragment extends Fragment implements OnBackPressed{
         }
     };
 
-
-    @Override
-    public boolean onBackPress() {
-        if (KeyEvent.isGamepadButton(KeyEvent.KEYCODE_BACK)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
