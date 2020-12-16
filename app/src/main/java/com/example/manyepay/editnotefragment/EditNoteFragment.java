@@ -1,19 +1,13 @@
 package com.example.manyepay.editnotefragment;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,34 +20,21 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.manyepay.R;
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
-import com.example.manyepay.listnotesfragment.OnBackPressed;
 import com.example.manyepay.note.Note;
 import com.example.manyepay.notificationhelper.AlarmNotifyReciever;
 import com.example.manyepay.reqestcodes.RequestCode;
 import com.example.manyepay.utils.UtilAlarmSet;
 import com.example.manyepay.viewmodel.MainViewModel;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-import static com.example.manyepay.R.string.date_format;
-import static com.example.manyepay.R.string.item_view_role_description;
 
 public class EditNoteFragment extends Fragment{
     private EditText datetext;

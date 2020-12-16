@@ -37,7 +37,6 @@ public class AlarmNotifyReciever extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, alarm, 0);
         Intent intent1 = new Intent(context, MainActivity.class);
 
-
         sentMessageOnChannel(context, intent1);
 
         alarmSet.setRepeatAlarmMenedger(context, pendingIntent, timeRepeat);

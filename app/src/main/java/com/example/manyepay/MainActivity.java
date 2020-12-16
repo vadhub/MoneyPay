@@ -2,16 +2,11 @@ package com.example.manyepay;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.manyepay.listnotesfragment.ListNotesFragment;
-import com.example.manyepay.listnotesfragment.OnBackPressed;
 
 public class MainActivity extends AppCompatActivity {
 
